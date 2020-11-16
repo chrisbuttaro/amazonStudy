@@ -1,0 +1,46 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+ 
+class Solution {
+
+ /**
+  * For a BST defined as follows:
+  * The left subtree of a node contains only nodes with keys less than the node's key.
+  * The right subtree of a node contains only nodes with keys greater than the node's key.
+  * Both the left and right subtrees must also be binary search trees.
+  *
+  * This method validates the BST.
+  */
+    
+     public boolean isValidBST(TreeNode root) {
+        return compareNodes(Long.MIN_VALUE, root, Long.MAX_VALUE);
+    }
+    
+    /**
+     * Given the root recursively verifies that a BST node value is in the correct range.
+     * Note: using a secondary method to control min and max value.
+     */
+    public boolean compareNodes(long min, TreeNode node, long max) {
+        if (node == null) {
+            return true;
+        }
+        boolean correctNode = min < node.val && node.val < max;
+    
+        return correctNode && // Do the following to always ensure all right > root, all left < root
+            compareNodes(min, node.left, node.val) && // Check left min < left < parent
+            compareNodes(node.val, node.right, max);  // Check right parent < right < max 
+    }
+}
